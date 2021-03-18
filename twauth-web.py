@@ -118,6 +118,7 @@ def callback():
             status=real_resp['status'])
         return render_template('error.html', error_message=error_message)
 
+    print(real_content)
     response = json.loads(real_content.decode('utf-8'))
 
     email = response['email']
@@ -131,6 +132,7 @@ def callback():
                     "user_id": user_id
                     }
     profile_data_json = json.dumps(profile_data, indent=4)
+    all_resp_data = json.dumps(response,indent=4)
 
     # don't keep this token and secret in memory any longer
     del oauth_store[oauth_token]
@@ -138,6 +140,7 @@ def callback():
     return render_template('callback-success.html', screen_name=screen_name, user_id=user_id, name=name,
                            email=email, profile_img=profile_img,
                            profile_data_json = profile_data_json,
+                           all_resp_data = all_resp_data,
                            access_token_url=access_token_url)
 
 
